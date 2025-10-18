@@ -11,6 +11,7 @@ const Signup = () => {
   const navigate = useNavigate();
 
   async function signup() {
+  try {  
     const username = usernameRef.current?.value;
     const password = passwordRef.current?.value;
 
@@ -20,6 +21,15 @@ const Signup = () => {
     });
     navigate("/signin");
     alert("You have signed up!");
+  } 
+  catch (error: any) {
+      if (error.response?.data?.message === "User already exists") {
+      alert("User already exists. Redirecting to sign in...");
+      navigate("/signin");
+    } else {
+      alert("Signup failed. Please try again.");
+    }
+  }
   }
 
   return (

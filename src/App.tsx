@@ -1,21 +1,36 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Dashboard from "./Pages/Dashboard"
-import Signin from "./Pages/Signin"
-import Signup from "./Pages/Signup"
-import { BrowserRouter, Routes , Route } from "react-router-dom"
+import Signup from "./Pages/Signup";
+import Signin from "./Pages/Signin";
 
+function App() {
+  const isAuthenticated = !!localStorage.getItem("token");
 
-const App = () => {
   return (
-    <div>
-      <BrowserRouter>
+    <Router>
       <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/signin" element={<Signin />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Navigate to="/dashboard" />} />
+        <Route
+          path="/dashboard"
+          element={
+            isAuthenticated ? <Dashboard /> : <Navigate to="/signup" />
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" /> : <Signup />
+          }
+        />
+        <Route
+          path="/signin"
+          element={
+            isAuthenticated ? <Navigate to="/dashboard" /> : <Signin />
+          }
+        />
       </Routes>
-      </BrowserRouter>
-    </div>
-  )
+    </Router>
+  );
 }
 
-export default App
+export default App;

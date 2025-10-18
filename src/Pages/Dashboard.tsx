@@ -8,11 +8,32 @@ import SideBar from "../components/SideBar";
 import useContent from "../hooks/useContent";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
+import { useNavigate } from "react-router-dom";
+
 
 function Dashboard() {
   const [modalOpen, setModalOpen] = useState(false);
   const { contents, refresh } = useContent();
   const [filterType, setFilterType] = useState<"all" | "youtube" | "twitter">("all");
+  const isAuthenticated = !!localStorage.getItem("token");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      navigate("/signup");
+    }
+  }, []);
+
+
+  function handleAddContent() {
+    if (!isAuthenticated) {
+      alert("You need to sign up before adding content");
+      navigate("/signup");
+      return;
+    }
+    setModalOpen(true);
+  }
 
   async function deleteContent(id: string) {
     await axios.delete(`${BACKEND_URL}/api/v1/content`, {
@@ -22,6 +43,23 @@ function Dashboard() {
       data: { contentID: id },
     })
     refresh();
+  }
+
+  async function sharelink() {
+    const response = await axios.post(`${BACKEND_URL}/api/v1/brain/share`,
+      { share: true },
+      {
+        headers: {
+          "Authorization": localStorage.getItem("token")
+        }
+      }
+    )
+    const hash = response.data.hash;
+    const shareUrl = `${BACKEND_URL}/api/v1/brain/${hash}`
+
+    await navigator.clipboard.writeText(shareUrl);
+
+    alert("Link copied to clipboard");
   }
 
   useEffect(() => {
@@ -45,11 +83,10 @@ function Dashboard() {
               text="Share Brain"
               size="md"
               startIcon={<ShareIcon size="lg" />}
+              onClick={() => sharelink()}
             />
             <Button
-              onClick={() => {
-                setModalOpen(true);
-              }}
+              onClick={() => handleAddContent()}
               variant="primary"
               text="Add Content"
               size="md"
