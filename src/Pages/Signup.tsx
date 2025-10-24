@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Button } from "../components/Button";
 import InputBox from "../components/InputBox";
 import axios from "axios";
@@ -10,26 +10,32 @@ const Signup = () => {
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  async function signup() {
-  try {  
-    const username = usernameRef.current?.value;
-    const password = passwordRef.current?.value;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) navigate("/dashboard");
+  }, []);
 
-    await axios.post(`${BACKEND_URL}/api/v1/signup`, {
-      username: username,
-      password: password,
-    });
-    navigate("/signin");
-    alert("You have signed up!");
-  } 
-  catch (error: any) {
-      if (error.response?.data?.message === "User already exists") {
-      alert("User already exists. Redirecting to sign in...");
+
+  async function signup() {
+    try {
+      const username = usernameRef.current?.value;
+      const password = passwordRef.current?.value;
+
+      await axios.post(`${BACKEND_URL}/api/v1/signup`, {
+        username: username,
+        password: password,
+      });
       navigate("/signin");
-    } else {
-      alert("Signup failed. Please try again.");
+      alert("You have signed up!");
     }
-  }
+    catch (error: any) {
+      if (error.response?.data?.message === "User already exists") {
+        alert("User already exists. Redirecting to sign in...");
+        navigate("/signin");
+      } else {
+        alert("Signup failed. Please try again.");
+      }
+    }
   }
 
   return (
