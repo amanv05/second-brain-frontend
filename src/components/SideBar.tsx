@@ -18,7 +18,7 @@ const SideBar = ({ onFilterChange }: SideBarProps) => {
 
   return (
     <div className="h-screen bg-white border-r-2 border-blue-500 w-76 fixed left-0 top-0 p-2">
-      <div className="p-2 flex items-center">
+      <div className="p-2 flex items-center cursor-pointer">
         <button onClick={() => onFilterChange("all")}>
         <BrainIcon />
         </button>

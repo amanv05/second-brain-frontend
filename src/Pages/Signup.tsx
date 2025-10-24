@@ -4,17 +4,20 @@ import InputBox from "../components/InputBox";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth";
 
 const Signup = () => {
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
+  
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) navigate("/dashboard");
-  }, []);
-
+    if (isAuthenticated) {
+      navigate("/dashboard");
+    }
+  }, [isAuthenticated]);
 
   async function signup() {
     try {
@@ -22,15 +25,16 @@ const Signup = () => {
       const password = passwordRef.current?.value;
 
       await axios.post(`${BACKEND_URL}/api/v1/signup`, {
-        username: username,
-        password: password,
+        username,
+        password,
       });
+
+      alert("Account created successfully!");
       navigate("/signin");
-      alert("You have signed up!");
-    }
-    catch (error: any) {
+      
+    } catch (error: any) {
       if (error.response?.data?.message === "User already exists") {
-        alert("User already exists. Redirecting to sign in...");
+        alert("User already exists. Redirecting to Sign In...");
         navigate("/signin");
       } else {
         alert("Signup failed. Please try again.");

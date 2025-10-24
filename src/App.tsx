@@ -1,35 +1,24 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import Dashboard from "./Pages/Dashboard"
-import Signup from "./Pages/Signup";
-import Signin from "./Pages/Signin";
+import { Routes, Route } from "react-router-dom";
+import Signin from "./pages/Signin";
+import Signup from "./pages/Signup";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./components/protectedRoute";
 
 function App() {
-  const isAuthenticated = !!localStorage.getItem("token");
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" />} />
-        <Route
-          path="/dashboard"
-          element={
-            isAuthenticated ? <Dashboard /> : <Navigate to="/signup" />
-          }
-        />
-        <Route
-          path="/signup"
-          element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <Signup />
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            isAuthenticated ? <Navigate to="/dashboard" /> : <Signin />
-          }
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route path="/signin" element={<Signin />} />
+      <Route path="/signup" element={<Signup />} />
+
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
   );
 }
 
