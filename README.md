@@ -1,5 +1,5 @@
 ## Frontend of Second Brain App
-Key Features
+## Key Features
 
 Add & Manage Links: Users can save links from supported apps (currently Twitter posts & YouTube videos) so they can access them again in the future.
 
