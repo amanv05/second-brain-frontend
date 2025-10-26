@@ -3,7 +3,7 @@ import { BACKEND_URL } from "../config";
 import axios from "axios";
 
 export interface ContentTypes {
-    _id:  string;
+    _id: string;
     type: "twitter" | "youtube";
     link: string;
     title: string;
@@ -35,7 +35,7 @@ const useContent = () => {
         }
     }, []);
     return { contents, refresh, }
-    
+
 }
 
 export default useContent

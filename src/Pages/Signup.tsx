@@ -12,7 +12,7 @@ const Signup = () => {
   const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
 
-  
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
@@ -31,7 +31,7 @@ const Signup = () => {
 
       alert("Account created successfully!");
       navigate("/signin");
-      
+
     } catch (error: any) {
       if (error.response?.data?.message === "User already exists") {
         alert("User already exists. Redirecting to Sign In...");
@@ -43,7 +43,7 @@ const Signup = () => {
   }
 
   return (
-    <div className="h-screen w-screen bg-slate-500 flex justify-center items-center">
+    <div className="fixed h-screen w-screen bg-slate-200 flex justify-center items-center">
       <div className="bg-white rounded-2xl border min-w-48 p-8">
         <InputBox ref={usernameRef} placeholder="Username" />
         <InputBox ref={passwordRef} placeholder="Password" />

@@ -7,7 +7,7 @@ import ShareIcon from "../icons/ShareIcon";
 import SideBar from "../components/SideBar";
 import useContent from "../hooks/useContent";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
+import { BACKEND_URL, FRONTEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/auth";
 
@@ -58,7 +58,7 @@ function Dashboard() {
     );
 
     const hash = response.data.hash;
-    const shareUrl = `${BACKEND_URL}/api/v1/brain/${hash}`;
+    const shareUrl = `${FRONTEND_URL}/brain/${hash}`;
     await navigator.clipboard.writeText(shareUrl);
     alert("Link copied to clipboard");
   }
@@ -68,7 +68,7 @@ function Dashboard() {
     refresh();
   }, [modalOpen]);
 
- 
+
   if (!isAuthenticated) return null;
 
   return (

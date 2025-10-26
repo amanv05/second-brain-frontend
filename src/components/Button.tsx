@@ -29,10 +29,9 @@ export const Button = (props: ButtonProps) => {
     <>
       <button
         onClick={props.onClick}
-        className={`${props.fullWidth ? "w-full" : null} ${
-          variantStyles[props.variant]
-        } ${defaultStyles} ${sizeStyles[props.size]} ${props.loading ? "opacity-65" : null}`}
-      disabled={props.loading}>
+        className={`${props.fullWidth ? "w-full" : null} ${variantStyles[props.variant]
+          } ${defaultStyles} ${sizeStyles[props.size]} ${props.loading ? "opacity-65" : null}`}
+        disabled={props.loading}>
         {props.startIcon ? <div className="pr-2">{props.startIcon}</div> : null}{" "}
         {props.text} {props.endIcon}
       </button>

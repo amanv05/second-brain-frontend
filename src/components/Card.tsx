@@ -8,7 +8,7 @@ interface CardProps {
   title: string;
   link: string;
   type: "twitter" | "youtube";
-  onDelete: (id: string) => void;
+  onDelete?: (id: string) => void;
 }
 
 const Card = ({ _id, title, link, type, onDelete }: CardProps) => {
@@ -35,14 +35,16 @@ const Card = ({ _id, title, link, type, onDelete }: CardProps) => {
             </a>
           </div>
           <div>
-            <button
-              className="cursor-pointer flex items-center"
-              onClick={() => {
-                onDelete(_id);
-              }}
-            >
-              <DeleteIcon size="lg" />
-            </button>
+            {onDelete && (
+              <button
+                className="cursor-pointer flex items-center"
+                onClick={() => {
+                  onDelete(_id);
+                }}
+              >
+                <DeleteIcon size="lg" />
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -53,12 +55,10 @@ const Card = ({ _id, title, link, type, onDelete }: CardProps) => {
             className="w-full aspect-video rounded-sm"
             src={
               link.includes("youtu.be")
-                ? `https://www.youtube.com/embed/${
-                    link.split("/").pop()?.split("?")[0] ?? ""
-                  }`
-                : `https://www.youtube.com/embed/${
-                    new URLSearchParams(new URL(link).search).get("v") ?? ""
-                  }`
+                ? `https://www.youtube.com/embed/${link.split("/").pop()?.split("?")[0] ?? ""
+                }`
+                : `https://www.youtube.com/embed/${new URLSearchParams(new URL(link).search).get("v") ?? ""
+                }`
             }
             title="YouTube video player"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

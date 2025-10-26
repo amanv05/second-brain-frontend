@@ -12,7 +12,7 @@ const Signin = () => {
   const navigate = useNavigate();
   const { setToken, isAuthenticated } = useAuth();
 
- 
+
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/dashboard");
@@ -31,7 +31,7 @@ const Signin = () => {
 
       const jwt = response.data.token;
 
-   
+
       localStorage.setItem("token", jwt);
 
 
@@ -45,7 +45,7 @@ const Signin = () => {
   }
 
   return (
-    <div className="h-screen w-screen bg-slate-500 flex justify-center items-center">
+    <div className="fixed h-screen w-screen bg-slate-200 flex justify-center items-center">
       <div className="bg-white rounded-2xl border min-w-48 p-8">
         <InputBox ref={usernameRef} placeholder="Username" />
         <InputBox ref={passwordRef} placeholder="Password" />
